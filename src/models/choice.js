@@ -2,13 +2,9 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Choice extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
+    static associate({ Question, StudentQuizAnswer }) {
+      this.belongsTo(Question);
+      this.hasMany(StudentQuizAnswer);
     }
   }
   Choice.init(
@@ -21,8 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       timestamps: true,
       modelName: "Choice",
-      updatedAt: "updateTimestamp",
-      underscored: true,
+      updatedAt: true,
     },
   );
   return Choice;

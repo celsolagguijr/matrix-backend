@@ -2,13 +2,11 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Subject extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
+    static associate({ Lesson, Quiz, Teacher, StudentSubject }) {
+      this.hasMany(Lesson);
+      this.hasMany(Quiz);
+      this.hasMany(StudentSubject);
+      this.belongsTo(Teacher);
     }
   }
   Subject.init(
@@ -21,8 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       timestamps: true,
       modelName: "Subject",
-      updatedAt: "updateTimestamp",
-      underscored: true,
+      updatedAt: true,
     },
   );
   return Subject;
