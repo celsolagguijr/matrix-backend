@@ -1,10 +1,18 @@
 const express = require("express");
 const router = express.Router();
-const { Student } = require("../models");
+const {
+  authenticate: studentAuth,
+} = require("../controllers/student.controller");
+const {
+  authenticate: teacherAuth,
+} = require("../controllers/teacher.controller");
 
-router.route("/students").get(async (req, res) => {
-  const result = await Student.findAll();
-  res.status(200).json(result);
+router.route("/students/auth").post(async (req, res) => {
+  return await studentAuth(req, res);
+});
+
+router.route("/teachers/auth").post(async (req, res) => {
+  return await teacherAuth(req, res);
 });
 
 module.exports = router;

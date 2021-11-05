@@ -15,15 +15,15 @@ module.exports = (sequelize, DataTypes) => {
       contactNumber: { type: DataTypes.STRING, allowNull: false },
       userName: { type: DataTypes.STRING, allowNull: false },
       password: { type: DataTypes.STRING, allowNull: false },
-      profile: { type: DataTypes.STRING, allowNull: false },
-      isActive: { type: DataTypes.BOOLEAN, allowNull: false },
+      profile: { type: DataTypes.STRING, allowNull: true },
+      isActive: { type: DataTypes.BOOLEAN, allowNull: true },
     },
     {
       sequelize,
       timestamps: true,
       modelName: "Student",
       updatedAt: true,
-    },
+    }
   );
   return Student;
 };

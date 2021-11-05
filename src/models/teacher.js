@@ -16,9 +16,9 @@ module.exports = (sequelize, DataTypes) => {
       lastName: { type: DataTypes.STRING, allowNull: false },
       firstName: { type: DataTypes.STRING, allowNull: false },
       email: { type: DataTypes.STRING, allowNull: false },
-      username: { type: DataTypes.STRING, allowNull: false },
+      userName: { type: DataTypes.STRING, allowNull: false },
       password: { type: DataTypes.STRING, allowNull: false },
-      profile: { type: DataTypes.STRING, allowNull: false },
+      profile: { type: DataTypes.STRING, allowNull: true },
       isActive: { type: DataTypes.BOOLEAN, allowNull: false },
     },
     {
@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: true,
       modelName: "Teacher",
       updatedAt: true,
-    },
+    }
   );
   return Teacher;
 };
