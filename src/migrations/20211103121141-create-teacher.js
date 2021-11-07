@@ -26,6 +26,9 @@ module.exports = {
       profile: {
         type: Sequelize.STRING(200),
       },
+      contactNumber: {
+        type: Sequelize.STRING(12),
+      },
       isActive: {
         type: Sequelize.BOOLEAN,
       },
