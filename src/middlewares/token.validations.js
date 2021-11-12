@@ -3,6 +3,8 @@ const { verifyAccessToken } = require("../utils/jwt");
 const validateToken = async (req, res, next) => {
   const bearerHeader = req.headers["authorization"];
 
+  console.log(bearerHeader);
+
   if (typeof bearerHeader !== "undefined") {
     const accessToken = bearerHeader.split(" ")[1];
 

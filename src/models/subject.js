@@ -20,7 +20,8 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: true,
       modelName: "Subject",
       updatedAt: true,
-    },
+      paranoid: true,
+    }
   );
   return Subject;
 };
