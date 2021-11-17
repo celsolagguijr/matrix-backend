@@ -17,7 +17,16 @@ module.exports = {
       attachedFile: {
         type: Sequelize.STRING(150),
       },
-      lessionId: {
+      fileType: {
+        type: Sequelize.STRING(10),
+      },
+      fileName: {
+        type: Sequelize.STRING(150),
+      },
+      fileSize: {
+        type: Sequelize.INTEGER,
+      },
+      lessonId: {
         type: Sequelize.INTEGER,
         references: {
           model: "lessons",
@@ -33,7 +42,7 @@ module.exports = {
         type: Sequelize.DATE,
       },
       deletedAt: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.DATE,
       },
     });
