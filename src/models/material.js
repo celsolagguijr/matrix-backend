@@ -10,7 +10,6 @@ module.exports = (sequelize, DataTypes) => {
     {
       title: { type: DataTypes.STRING, allowNull: false },
       description: { type: DataTypes.STRING, allowNull: false },
-      attachedFile: { type: DataTypes.STRING, allowNull: false },
       fileType: { type: DataTypes.STRING, allowNull: false },
       fileName: { type: DataTypes.STRING, allowNull: false },
       fileSize: { type: DataTypes.INTEGER, allowNull: false },

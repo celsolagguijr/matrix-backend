@@ -14,9 +14,6 @@ module.exports = {
       description: {
         type: Sequelize.STRING(150),
       },
-      attachedFile: {
-        type: Sequelize.STRING(150),
-      },
       fileType: {
         type: Sequelize.STRING(10),
       },

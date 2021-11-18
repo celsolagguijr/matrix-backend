@@ -31,7 +31,7 @@ router
     return await remove(req, res);
   });
 
-router.route("/lessons/:lesson_id").get(async (req, res) => {
+router.route("/lessons/:lesson_id").get([validateToken], async (req, res) => {
   return await viewLesson(req, res);
 });
 
