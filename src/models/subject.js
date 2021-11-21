@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
   Subject.init(
     {
       code: { type: DataTypes.STRING, allowNull: false },
+      joinCode: { type: DataTypes.STRING, allowNull: false },
       description: { type: DataTypes.STRING, allowNull: false },
       teacherId: { type: DataTypes.INTEGER, allowNull: false },
     },

@@ -1,4 +1,6 @@
-const { Subject } = require("../models");
+const shortid = require("shortid");
+
+const { Subject, StudentSubject, Student } = require("../models");
 
 module.exports = {
   create: async (req, res) => {
@@ -9,6 +11,7 @@ module.exports = {
 
       const { dataValues } = await Subject.create({
         code,
+        joinCode: shortid.generate(),
         description,
         teacherId: id,
       });
@@ -84,7 +87,7 @@ module.exports = {
 
     try {
       const data = await Subject.findAll({
-        attributes: ["code", "description", "id"],
+        attributes: ["code", "description", "id", "joinCode"],
         where: {
           teacherId: id,
         },
@@ -95,6 +98,195 @@ module.exports = {
       return res.status(500).json({
         msg: "Something went wrong.",
         error,
+      });
+    }
+  },
+  joinSubject: async (req, res) => {
+    const { id } = req.token;
+    const { joinCode } = req.params;
+
+    const subject = await Subject.findOne({
+      where: {
+        joinCode,
+      },
+    });
+
+    if (!subject) {
+      return res.status(404).json({
+        msg: "Subject not found",
+      });
+    }
+
+    const studentSubjects = await StudentSubject.findOne({
+      where: {
+        subjectId: subject.id,
+        studentId: id,
+      },
+    });
+
+    if (studentSubjects && studentSubjects.status !== 3) {
+      return res.status(409).json({
+        msg: "You already joined",
+      });
+    }
+
+    if (studentSubjects && studentSubjects.status === 3) {
+      try {
+        const data = await StudentSubject.update(
+          {
+            status: 0,
+          },
+          {
+            where: {
+              id: studentSubjects.id,
+            },
+          }
+        );
+
+        return res.status(200).json({
+          msg: "Successfully Joined",
+        });
+      } catch (error) {
+        return res.status(500).json({
+          msg: "Something went wrong.",
+          error,
+        });
+      }
+    }
+
+    try {
+      const data = await StudentSubject.create({
+        studentId: id,
+        subjectId: subject.id,
+        status: 0,
+      });
+
+      return res.status(200).json(data);
+    } catch (error) {
+      return res.status(500).json({
+        msg: "Something went wrong.",
+        error,
+      });
+    }
+  },
+  getStudentSubjects: async (req, res) => {
+    const { id } = req.token;
+
+    try {
+      const data = await StudentSubject.findAll({
+        attributes: ["id", "status"],
+        where: {
+          studentId: id,
+          status: 1,
+        },
+        include: {
+          model: Subject,
+          where: {
+            deletedAt: null,
+          },
+        },
+      });
+
+      return res.status(200).json(data);
+    } catch (error) {
+      console.log(error);
+
+      return res.status(500).json({
+        msg: "Something went wrong.",
+        error,
+      });
+    }
+  },
+  getStundentPendingApproval: async (req, res) => {
+    const { subjectId } = req.params;
+
+    try {
+      const data = await StudentSubject.findAll({
+        attributes: ["status", "id"],
+        where: {
+          subjectId,
+          status: 0,
+        },
+        include: {
+          model: Student,
+          attributes: [
+            "id",
+            "firstName",
+            "lastName",
+            "userName",
+            "profile",
+            "email",
+          ],
+        },
+      });
+
+      return res.status(200).json(data);
+    } catch (error) {
+      console.log(error);
+
+      return res.status(500).json({
+        msg: "Something went wrong.",
+        error,
+      });
+    }
+  },
+
+  getApprovedStudents: async (req, res) => {
+    const { subjectId } = req.params;
+
+    try {
+      const data = await StudentSubject.findAll({
+        attributes: ["status", "id"],
+        where: {
+          subjectId,
+          status: 1,
+        },
+        include: {
+          model: Student,
+          attributes: [
+            "id",
+            "firstName",
+            "lastName",
+            "userName",
+            "profile",
+            "email",
+          ],
+        },
+      });
+
+      return res.status(200).json(data);
+    } catch (error) {
+      console.log(error);
+
+      return res.status(500).json({
+        msg: "Something went wrong.",
+        error,
+      });
+    }
+  },
+  updateStatus: async (req, res) => {
+    const { status, id } = req.params;
+
+    try {
+      const result = await StudentSubject.update(
+        {
+          status,
+        },
+        {
+          where: {
+            id,
+          },
+        }
+      );
+
+      return res.status(200).json({
+        success: true,
+        msg: "Success",
+      });
+    } catch (error) {
+      return res.status(500).json({
+        success: false,
+        msg: "Something went wrong.",
       });
     }
   },

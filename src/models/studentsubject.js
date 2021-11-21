@@ -11,8 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       studentId: { type: DataTypes.INTEGER, allowNull: false },
       subjectId: { type: DataTypes.INTEGER, allowNull: false },
-      isApproved: { type: DataTypes.BOOLEAN, allowNull: false },
-      dateApproved: { type: DataTypes.DATE, allowNull: false },
+      status: { type: DataTypes.INTEGER, allowNull: false },
     },
     {
       sequelize,

@@ -11,6 +11,9 @@ module.exports = {
       code: {
         type: Sequelize.STRING(10),
       },
+      joinCode: {
+        type: Sequelize.STRING(10),
+      },
       description: {
         type: Sequelize.STRING(150),
       },

@@ -1,0 +1,29 @@
+SELECT
+
+
+prodCat.sProdCat,
+agent.`sub_title` ,
+SUM(t.`qtyOUT` * t.priceOUT) AS 'SalesOfNetDiscount',
+SUM(t.`qtyIN` * t.`priceIN` ) AS 'Returns',
+SUM((t.`qtyOUT` * t.`priceOUT`) - (t.`qtyIN` * t.`priceIN`)) AS 'NetSales'
+
+
+
+
+FROM gltrans_inv t 
+
+	INNER JOIN glj j USING (jid) 
+	
+	INNER JOIN pos_prod p USING (ixProd)
+		
+	INNER JOIN lib_sub agent 
+		ON (ixSubAcc2 = agent.`sub_id`)
+		
+	INNER JOIN pos_prod_cat prodCat 
+		ON(prodCat.ixProdCat = ixCat)
+		
+	WHERE  (j.jDate >='2021-07-01' AND j.jDate<='2021-07-31' ) AND j.`JCd` IN ('CI','RET') AND jStatus=1
+	
+
+GROUP BY ixCat, ixSubAcc2 HAVING NetSales <> 0 
+ORDER BY prodCat.sProdCat ASC , NetSales  DESC

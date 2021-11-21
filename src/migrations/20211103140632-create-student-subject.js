@@ -22,11 +22,8 @@ module.exports = {
           key: "id",
         },
       },
-      isApproved: {
-        type: Sequelize.BOOLEAN,
-      },
-      dateApproved: {
-        type: Sequelize.DATE,
+      status: {
+        type: Sequelize.INTEGER(1),
       },
       createdAt: {
         allowNull: false,
