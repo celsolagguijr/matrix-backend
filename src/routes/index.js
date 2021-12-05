@@ -4,6 +4,7 @@ const TeacherRoutes = require("./teacher.api.routes");
 const SubjectRoutes = require("./subject.api.routes");
 const LessonRoutes = require("./lesson.api.routes");
 const MaterialRoutes = require("./material.routes");
+const ActivityRoutes = require("./activities.api.routes");
 
 const apis = [
   AuthRoutes,
@@ -12,6 +13,7 @@ const apis = [
   SubjectRoutes,
   LessonRoutes,
   MaterialRoutes,
+  ActivityRoutes,
 ];
 
 function getApiRoutes(app) {
