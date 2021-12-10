@@ -169,10 +169,16 @@ module.exports = {
         where: {
           lessonActivityId: id,
         },
-        include: {
-          model: Student,
-          attributes: { exclude: ["updatedAt", "deletedAt", "password"] },
-        },
+        include: [
+          {
+            model: Student,
+            attributes: { exclude: ["updatedAt", "deletedAt", "password"] },
+          },
+          {
+            model: LessonActivity,
+            attributes: ["dateEnd"],
+          },
+        ],
       });
 
       return res.status(200).json([...activities]);
