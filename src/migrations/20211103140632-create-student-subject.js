@@ -25,6 +25,9 @@ module.exports = {
       status: {
         type: Sequelize.INTEGER(1),
       },
+      address: {
+        type: Sequelize.STRING(255),
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

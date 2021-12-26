@@ -8,7 +8,6 @@ module.exports = {
 
     try {
       const teacher = await Teacher.findOne({
-        attributes: { exclude: ["email"] },
         where: {
           userName,
         },
@@ -35,6 +34,11 @@ module.exports = {
             userName: teacher.userName,
             firstName: teacher.firstName,
             lastName: teacher.lastName,
+            contactNumber: teacher.contactNumber,
+            email: teacher.email,
+            profile: teacher.profile,
+            birthdate: teacher.birthdate,
+            address: teacher.address,
             access_token: await generateAccessToken({
               id: teacher.id,
               userType: "teacher",
@@ -83,6 +87,68 @@ module.exports = {
           lastName: newTeacher.lastName,
         },
         message: "Successfully Registered",
+      });
+    } catch (error) {
+      return res.status(500).json({
+        error,
+        message: "Something went wrong.",
+      });
+    }
+  },
+  async updateProfile(req, res) {
+    const { id } = req.token;
+
+    try {
+      const result = await Teacher.update({ ...req.body }, { where: { id } });
+
+      return res.status(200).json({
+        success: true,
+        msg: "Success",
+      });
+    } catch (error) {
+      return res.status(500).json({
+        error,
+        message: "Something went wrong.",
+      });
+    }
+  },
+  async changePassword(req, res) {
+    const { id } = req.token;
+
+    const { password } = req.body;
+
+    try {
+      const result = await Teacher.update(
+        { password: await hashPassword(password) },
+        { where: { id } }
+      );
+
+      return res.status(200).json({
+        success: true,
+        msg: "Success",
+      });
+    } catch (error) {
+      return res.status(500).json({
+        error,
+        message: "Something went wrong.",
+      });
+    }
+  },
+  async updateProfilePicture(req, res) {
+    const { id } = req.token;
+
+    const { filename: fileName } = req.file;
+
+    try {
+      const result = await Teacher.update(
+        { profile: fileName },
+        { where: { id } }
+      );
+
+      return res.status(200).json({
+        success: true,
+        msg: "Success",
+        newProfile: fileName,
       });
     } catch (error) {
       return res.status(500).json({

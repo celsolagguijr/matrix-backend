@@ -29,6 +29,12 @@ module.exports = {
       profile: {
         type: Sequelize.STRING(200),
       },
+      address: {
+        type: Sequelize.STRING(255),
+      },
+      birthdate: {
+        type: Sequelize.DATE,
+      },
       isActive: {
         type: Sequelize.BOOLEAN,
       },
